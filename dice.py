@@ -6,10 +6,10 @@ Methods for "rolling dice", printing out a list of
 possible outcomes when dice are rolled, or a probability 
 distribution for a given collection of dice.  
 
-Last updated 30 Jan 2019.  RAM
+Last updated 8 Feb 2019.  RAM
 """
-__all__ = ['diceDict', 'diceProb', 'roll']
 
+import matplotlib.pyplot as plt
 import random
 random.seed()
 
@@ -33,10 +33,9 @@ def _mergeDiceDicts(d1, d2):
 
 def diceDict(diceList):
     """
-    A "binary search" or "merge sort" type of procedure 
-    to generate a dictionary of outcomes of a list of 
-    dice numbers that describe the number of sides on 
-    each side.  
+    A "merge sort" type of procedure to generate a dictionary of 
+    outcomes of a list of dice numbers that describe the number of 
+    sides on each side.  
     
     Each element of diceList is a positive number, or another list.  
     If it's a positive number n, it's for a die with that many 
@@ -120,3 +119,12 @@ def roll(diceList):
             result += random.choice(dice)
     return result
 
+def diceBarPlot(diceList):
+    """
+    A method to draw a histogram to illustrate the probability 
+    distribution for a given set of dice described in diceList.
+    """
+    assert isinstance(diceList, (list, int)), "Invalid argument to diceHist!"
+    hist = diceDict(diceList)
+    plt.bar(hist.keys(), hist.values())
+    
