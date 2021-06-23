@@ -27,9 +27,12 @@ def _mergeDiceDicts(d1, d2):
     newDict = dict()
     for k1 in d1.keys():
         for k2 in d2.keys():
-            newK = k1 + k2          #  new key
-            newV = d1[k1] * d2[k2]  # number of ways of making newK from the two given keys
-            newDict[newK] = newDict.get(newK, 0) + newV  #  create/update the new key in the result
+            newK = k1 + k2          # new key
+            newV = d1[k1] * d2[k2]  # number of ways of making newK 
+                                    # from the two given keys
+            newDict[newK] = newDict.get(newK, 0) + newV  #  create/update 
+                                                         # the new key in 
+                                                         # the result
     return newDict
 
 def diceDict(diceList):
@@ -64,13 +67,14 @@ def diceDict(diceList):
         else:
             assert diceList[0] > 0, "Negative number supplied as number of sides of die!"
             return { x : 1 for x in range(1, diceList[0]+1) }
-    #  Otherwise, there are at least two elements in the list, so split and recurse
+    #  Otherwise, there are at least two elements in the list, so 
+    #  split and recurse.
     random.shuffle(diceList)
     L = int(len(diceList)/2)
     leftDict = diceDict( diceList[:L] )
     rightDict = diceDict( diceList[L:] )
     final = _mergeDiceDicts(leftDict, rightDict)
-    return final
+    return { k: v for k, v in sorted(final.items()) }
 
 def diceProb(diceList, exact=False):
     """ 
@@ -87,7 +91,7 @@ def diceProb(diceList, exact=False):
     die (which could be positive, zero, or negative, and could 
     have repetitions).   
     
-    The parameter exact controls whether floating point numbers are
+    The parameter "exact" controls whether floating point numbers are
     returned, or if exact values are returned using the Fraction
     class from the fractions module.
     """
@@ -97,9 +101,9 @@ def diceProb(diceList, exact=False):
     result = diceDict(diceList)
     s = sum(result.values())
     if exact:
-        return { x : Fraction(result[x],s) for x in result.keys() }
+        return { x : Fraction(result[x],s) for x in sorted(result.keys()) }
     else:
-        return { x : result[x]/s for x in result.keys() }
+        return { x : result[x]/s for x in sorted(result.keys()) }
 
 def roll(diceList):
     """ 
