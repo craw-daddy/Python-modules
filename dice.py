@@ -6,10 +6,11 @@ Methods for "rolling dice", printing out a list of
 possible outcomes when dice are rolled, or a probability 
 distribution for a given collection of dice.  
 
-Last updated 8 Feb 2019.  RAM
+Last updated 23 June 2021.  RAM
 """
 
 import matplotlib.pyplot as plt
+from fractions import Fraction
 import random
 random.seed()
 
@@ -71,7 +72,7 @@ def diceDict(diceList):
     final = _mergeDiceDicts(leftDict, rightDict)
     return final
 
-def diceProb(diceList):
+def diceProb(diceList, exact=False):
     """ 
     Returns a dictionary of probabilities, where the keys are 
     the possible values obtainable with the set of dice in 
@@ -84,14 +85,21 @@ def diceProb(diceList):
     sides with numbers {1, ..., n}.  If it's a list, it's for a 
     die where the list describes the numbers on the sides of the 
     die (which could be positive, zero, or negative, and could 
-    have repetitions).       
+    have repetitions).   
+    
+    The parameter exact controls whether floating point numbers are
+    returned, or if exact values are returned using the Fraction
+    class from the fractions module.
     """
     assert isinstance(diceList, (list, int)), "Invalid argument to diceProb!"
     if isinstance(diceList, int):
         diceList = [ diceList ]    #  recast a single number to a list
     result = diceDict(diceList)
     s = sum(result.values())
-    return { x : result[x]/s for x in result.keys() }
+    if exact:
+        return { x : Fraction(result[x],s) for x in result.keys() }
+    else:
+        return { x : result[x]/s for x in result.keys() }
 
 def roll(diceList):
     """ 
