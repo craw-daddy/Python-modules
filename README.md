@@ -1,8 +1,10 @@
 # Python-modules
-Small Python modules I've created.
-
 This repository is to include some Python modules that I have created, 
-partly for amusement purposes, just because I can, and others that might be
-more "useful" from an academic point of view.  
+mostly for amusement purposes, just because I can.  
 
 Of course, all are provided with no guarantees or warranties on use.  ;)  
+
+## dice.py ##
+This module is one for simulating dice rolls, or for generating the probability 
+distribution of dice rolls.  This can include "non-standard" dice as specified 
+by the user (within certain constraints, see the description in the file itself).  
