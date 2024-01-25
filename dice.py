@@ -6,7 +6,7 @@ Methods for "rolling dice", printing out a list of
 possible outcomes when dice are rolled, or a probability 
 distribution for a given collection of dice.  
 
-Last updated 23 June 2021.  RAM
+Last updated 25 January 2024.  RAM
 """
 
 import matplotlib.pyplot as plt
@@ -76,7 +76,7 @@ def diceDict(diceList):
     final = _mergeDiceDicts(leftDict, rightDict)
     return { k: v for k, v in sorted(final.items()) }
 
-def diceProb(diceList, exact=False):
+def diceProb(diceList, exact=True):
     """ 
     Returns a dictionary of probabilities, where the keys are 
     the possible values obtainable with the set of dice in 
@@ -139,4 +139,10 @@ def diceBarPlot(diceList):
     assert isinstance(diceList, (list, int)), "Invalid argument to diceHist!"
     hist = diceDict(diceList)
     plt.bar(hist.keys(), hist.values())
-    
+
+if __name__ == '__main__':
+    for k, v in diceProb([6, 6]).items():
+        print(k, ':', v)
+    print('---------------------')
+    for k, v in diceProb([[-1, 0, 1], 6]).items():
+        print(k, ':', v)
