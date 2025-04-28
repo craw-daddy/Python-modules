@@ -48,10 +48,10 @@ def diceDict(diceList):
     die (which could be positive, zero, or negative, and could 
     have repetitions).   
     """
-    assert isinstance(diceList, list), "Invalid argument to diceDict!"
-    if len(diceList) == 0:
+    assert isinstance(diceList, (list, int)), "Invalid argument to diceDict!"
+    if isinstance(diceList, list) and len(diceList) == 0:
         return dict()
-    elif len(diceList) == 1:
+    elif isinstance(diceList, list) and len(diceList) == 1:
         #  Check if the "die" element itself is a list.  If so,
         #  interpret it as a single die where the values of the sides
         #  are the elements of that list.  (Allows for dice with the 
@@ -67,7 +67,11 @@ def diceDict(diceList):
         else:
             assert diceList[0] > 0, "Negative number supplied as number of sides of die!"
             return { x : 1 for x in range(1, diceList[0]+1) }
-    #  Otherwise, there are at least two elements in the list, so 
+    elif isinstance(diceList, int):  #  The argument given was a single number
+        assert diceList > 0, "Negative number supplied as number of sides of die!"
+        return { x : 1 for x in range(1, diceList+1) }
+        
+    #  Otherwise, the input is a list and there are at least two elements in the list, so 
     #  split and recurse.
     random.shuffle(diceList)
     L = int(len(diceList)/2)
@@ -143,6 +147,11 @@ def diceBarPlot(diceList):
 if __name__ == '__main__':
     for k, v in diceProb([6, 6]).items():
         print(k, ':', v)
+
+    print('---------------------')
+    for k, v in diceProb(20).items():
+        print(k, ':', v)
+        
     print('---------------------')
     for k, v in diceProb([[-1, 0, 1], 6]).items():
         print(k, ':', v)
